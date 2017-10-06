@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Calculator</h1>
+
+    <form action="/calculator" method="POST">
+        <input type="number" name="n1"/>
+        <input type="number" name="n2"/>
+        {% if result is not none %}
+            = {{ result }}
+        {% endif %}
+        <br><br>
+        <input type="submit" name="operator" value="+"/>
+        <input type="submit" name="operator" value="-"/>
+        <input type="submit" name="operator" value="x"/>
+        <input type="submit" name="operator" value="/"/>
+    </form>
+
+{% endblock %}

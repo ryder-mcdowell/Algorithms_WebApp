@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Sorting Algorithms</h1>
+
+    <form action="/sorting" method="POST">
+        <h2 style="display:inline;margin-right:19em">Input:</h2><h2 style="display:inline">Output:</h2><br>
+        <textarea type="text" name="numbers" rows="20" cols="80">
+            {% for item in numGen %}
+                {{ item }}
+            {% endfor %}
+        </textarea>
+        <textarea type="text" name="output" rows="20" cols="80">
+            {% for i in sortedNumbers %}
+                {{ i }}
+            {% endfor %}
+        </textarea>
+        <br><br>
+        <input type="number" name="number"/>
+        <input type="submit" name="button" value="Generate"/>
+        <br><br>
+        <input type="submit" name="button" value="BubbleSort"/>
+        <input type="submit" name="button" value="SelectionSort"/>
+        <input type="submit" name="button" value="InsertionSort"/>
+        <input type="submit" name="button" value="RadixSort"/>
+        <input type="submit" name="button" value="MergeSort"/>
+        <input type="submit" name="button" value="QuickSort"/>
+    </form>
+
+
+{% endblock %}

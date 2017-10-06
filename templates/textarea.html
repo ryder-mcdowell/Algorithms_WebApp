@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+    <form action="/textarea" method="POST">
+        <textarea name="numbers" rows="20" cols="80"></textarea>
+        <input type="submit"/>
+    </form>
+
+    {% if numbers is not none %}
+        {% for n in numbers %}
+            {{ n }}
+        {% endfor %}
+    {% endif %}
+
+
+
+{% endblock %}
