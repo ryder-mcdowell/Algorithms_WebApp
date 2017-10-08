@@ -46,7 +46,6 @@ def sorting():
             numGen = request.form['number']
             numGen = int(numGen)
             numGen = generateNumbers(numGen)
-            print numGen
             return render_template('hw1.html', numGen=numGen)
 
         if request.form['button'] == 'RadixSort':
