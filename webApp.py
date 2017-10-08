@@ -100,30 +100,34 @@ def sorting():
 
 def closestPair():
     if request.method == 'GET':
-        return render_template('hw2.html')
+        return render_template('hw2.html', difference=None)
 
     elif request.method == 'POST':
         if request.form['button'] == 'Generate':
             numGen = request.form['number']
             numGen = int(numGen)
-            numGen = generateNumbers(numGen)
-            return render_template('hw2.html', numGen=numGen)
+            numGen = generateNumbersSorted(numGen)
+            return render_template('hw2.html', numGen=numGen, difference=None)
 
         if request.form['button'] == 'Brute Force':
             numbers = request.form['numbers']
             numbers = numbers.replace(' ','').split('\n')
             numbers = [n.strip('\r') for n in numbers]
             numbers = [int(n) for n in numbers if n != '']
-            pair = closestPairB(numbers)
-            return render_template('hw2.html', pair=pair)
+            values = closestPairB(numbers)
+            pair = (values[0],values[1])
+            difference = (values[2])
+            return render_template('hw2.html', pair=pair, difference=difference)
 
         if request.form['button'] == 'Recursive':
             numbers = request.form['numbers']
             numbers = numbers.replace(' ','').split('\n')
             numbers = [n.strip('\r') for n in numbers]
             numbers = [int(n) for n in numbers if n != '']
-            pair = closestPairR(numbers)
-            return render_template('hw2.html', pair=pair)
+            values = closestPairR(numbers)
+            pair = (values[0], values[1])
+            difference = (values[2])
+            return render_template('hw2.html', pair=pair, difference=difference)
 
 
 

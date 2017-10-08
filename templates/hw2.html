@@ -15,6 +15,9 @@
             {% for i in pair %}
                 {{ i }}
             {% endfor %}
+            {% if difference is not none %}
+                Difference: {{ difference }}
+            {% endif %}
         </textarea>
         <br><br>
         <input type="number" name="number"/>

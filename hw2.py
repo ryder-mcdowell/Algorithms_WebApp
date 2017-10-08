@@ -1,4 +1,9 @@
-import _random
+import random
+
+def generateNumbersSorted(numGen):
+    numbers = [random.randint(0, 10000) for i in range(numGen)]
+    numbers = sorted(numbers)
+    return numbers
 
 def closestPairB(list):
     listLength = len(list)
