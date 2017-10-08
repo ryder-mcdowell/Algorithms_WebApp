@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, helpers
-from sorting import *
+from hw1 import *
+from hw2 import *
 import random
 
 app = Flask(__name__)
@@ -34,11 +35,11 @@ def calculator():
             return render_template('calculator.html', result=result)
 
 
-@app.route('/sorting', methods=['GET', 'POST'])
+@app.route('/hw1', methods=['GET', 'POST'])
 
 def sorting():
     if request.method == 'GET':
-        return render_template('sorting.html')
+        return render_template('hw1.html')
 
     elif request.method == 'POST':
         if request.form['button'] == 'Generate':
@@ -46,7 +47,7 @@ def sorting():
             numGen = int(numGen)
             numGen = generateNumbers(numGen)
             print numGen
-            return render_template('sorting.html', numGen=numGen)
+            return render_template('hw1.html', numGen=numGen)
 
         if request.form['button'] == 'RadixSort':
             numbers = request.form['numbers']
@@ -54,7 +55,7 @@ def sorting():
             numbers = [n.strip('\r') for n in numbers]
             numbers = [int(n) for n in numbers if n != '']
             sortedNumbers = radixSort(numbers)
-            return render_template('sorting.html', sortedNumbers=sortedNumbers)
+            return render_template('hw1.html', sortedNumbers=sortedNumbers)
 
         if request.form['button'] == 'BubbleSort':
             numbers = request.form['numbers']
@@ -62,7 +63,7 @@ def sorting():
             numbers = [n.strip('\r') for n in numbers]
             numbers = [int(n) for n in numbers if n != '']
             sortedNumbers = bubbleSort(numbers)
-            return render_template('sorting.html', sortedNumbers=sortedNumbers)
+            return render_template('hw1.html', sortedNumbers=sortedNumbers)
 
         if request.form['button'] == 'InsertionSort':
             numbers = request.form['numbers']
@@ -70,7 +71,7 @@ def sorting():
             numbers = [n.strip('\r') for n in numbers]
             numbers = [int(n) for n in numbers if n != '']
             sortedNumbers = insertionSort(numbers)
-            return render_template('sorting.html', sortedNumbers=sortedNumbers)
+            return render_template('hw1.html', sortedNumbers=sortedNumbers)
 
         if request.form['button'] == 'SelectionSort':
             numbers = request.form['numbers']
@@ -78,7 +79,7 @@ def sorting():
             numbers = [n.strip('\r') for n in numbers]
             numbers = [int(n) for n in numbers if n != '']
             sortedNumbers = selectionSort(numbers)
-            return render_template('sorting.html', sortedNumbers=sortedNumbers)
+            return render_template('hw1.html', sortedNumbers=sortedNumbers)
 
         if request.form['button'] == 'MergeSort':
             numbers = request.form['numbers']
@@ -86,7 +87,7 @@ def sorting():
             numbers = [n.strip('\r') for n in numbers]
             numbers = [int(n) for n in numbers if n != '']
             sortedNumbers = mergeSort(numbers)
-            return render_template('sorting.html', sortedNumbers=sortedNumbers)
+            return render_template('hw1.html', sortedNumbers=sortedNumbers)
 
         if request.form['button'] == 'QuickSort':
             numbers = request.form['numbers']
@@ -94,7 +95,36 @@ def sorting():
             numbers = [n.strip('\r') for n in numbers]
             numbers = [int(n) for n in numbers if n != '']
             sortedNumbers = quickSort(numbers, 0, len(numbers) - 1)
-            return render_template('sorting.html', sortedNumbers=sortedNumbers)
+            return render_template('hw1.html', sortedNumbers=sortedNumbers)
+
+@app.route('/hw2', methods=['GET', 'POST'])
+
+def closestPair():
+    if request.method == 'GET':
+        return render_template('hw2.html')
+
+    elif request.method == 'POST':
+        if request.form['button'] == 'Generate':
+            numGen = request.form['number']
+            numGen = int(numGen)
+            numGen = generateNumbers(numGen)
+            return render_template('hw2.html', numGen=numGen)
+
+        if request.form['button'] == 'Brute Force':
+            numbers = request.form['numbers']
+            numbers = numbers.replace(' ','').split('\n')
+            numbers = [n.strip('\r') for n in numbers]
+            numbers = [int(n) for n in numbers if n != '']
+            pair = closestPairB(numbers)
+            return render_template('hw2.html', pair=pair)
+
+        if request.form['button'] == 'Recursive':
+            numbers = request.form['numbers']
+            numbers = numbers.replace(' ','').split('\n')
+            numbers = [n.strip('\r') for n in numbers]
+            numbers = [int(n) for n in numbers if n != '']
+            pair = closestPairR(numbers)
+            return render_template('hw2.html', pair=pair)
 
 
 
