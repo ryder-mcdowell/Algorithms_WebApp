@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route("/", methods=['GET', 'POST'])
 def base():
     if request.method == 'GET':
-        return render_template('base.html')
+        return render_template('home.html')
 
 @app.route("/calculator", methods=['GET', 'POST'])
 def calculator():
