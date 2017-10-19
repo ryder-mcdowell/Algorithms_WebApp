@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Color Graph</h1>
+
+    <form action="/hw3" method="POST">
+        <h2 style="display:inline;margin-right:19em">Input:</h2>
+        <br>
+        <textarea type="text" name="input" rows="20" cols="80">
+
+        </textarea>
+
+        <br><br>
+        <input type="submit" name="button" value="Process"/>
+        <br><br>
+        <br><br>
+    </form>
+
+    <div id="output">
+        <h2>Color Combinations:</h2>
+        <p>
+            {% autoescape false %}
+            {{ combinationsOutput }}
+            {% endautoescape %}
+        </p>
+        <br>
+        <h2>Graph Structure:</h2>
+        <p>
+            {% autoescape false %}
+            {{structureOutput}}
+            {% endautoescape %}
+        </p>
+        <br><br>
+    </div>
+
+
+{% endblock %}

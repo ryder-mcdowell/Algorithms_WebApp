@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, helpers
 from hw1 import *
 from hw2 import *
+from hw3 import *
 import random
 
 app = Flask(__name__)
@@ -128,6 +129,21 @@ def closestPair():
             pair = (values[0], values[1])
             difference = (values[2])
             return render_template('hw2.html', pair=pair, difference=difference)
+
+
+@app.route('/hw3', methods=['GET', 'POST'])
+
+def colorGraph():
+    if request.method == 'GET':
+        return render_template('hw3.html')
+
+    elif request.method == 'POST':
+        if request.form['button'] == 'Process':
+            input = request.form['input']
+            graph = createGraph(input)
+            combinationsOutput = colorCombinations(input)
+            structureOutput = formatStructure(graph)
+            return render_template('hw3.html', combinationsOutput=combinationsOutput, structureOutput=structureOutput)
 
 
 
