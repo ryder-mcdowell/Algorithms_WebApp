@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, helpers
 from hw1 import *
 from hw2 import *
 from hw3 import *
+from hw4 import *
 import random
 
 app = Flask(__name__)
@@ -37,7 +38,6 @@ def calculator():
 
 
 @app.route('/hw1', methods=['GET', 'POST'])
-
 def sorting():
     if request.method == 'GET':
         return render_template('hw1.html')
@@ -97,8 +97,8 @@ def sorting():
             sortedNumbers = quickSort(numbers, 0, len(numbers) - 1)
             return render_template('hw1.html', sortedNumbers=sortedNumbers)
 
-@app.route('/hw2', methods=['GET', 'POST'])
 
+@app.route('/hw2', methods=['GET', 'POST'])
 def closestPair():
     if request.method == 'GET':
         return render_template('hw2.html', difference=None)
@@ -132,7 +132,6 @@ def closestPair():
 
 
 @app.route('/hw3', methods=['GET', 'POST'])
-
 def colorGraph():
     if request.method == 'GET':
         return render_template('hw3.html')
@@ -146,6 +145,20 @@ def colorGraph():
             return render_template('hw3.html', combinationsOutput=combinationsOutput, structureOutput=structureOutput)
 
 
+@app.route('/hw4', methods=['GET', 'POST'])
+def pegSolitaireSolver():
+    if request.method == 'GET':
+        return render_template('hw4.html')
+
+    elif request.method == 'POST':
+        if request.form['button'] == 'Find Solution':
+            input = []
+            for i in range(15):
+                j = str(i)
+                input.append(request.form.get('check' + j))
+            input, pegCount = processInput(input)
+            findSolution(input, pegCount)
+            return render_template('hw4.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

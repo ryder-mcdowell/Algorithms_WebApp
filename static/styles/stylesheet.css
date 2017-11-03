@@ -1,0 +1,32 @@
+body {
+    background-color: grey;
+}
+
+.navbar {
+    list-style-type: none;
+}
+
+li {
+    display: inline;
+    padding: 10px 40px;
+}
+
+.row0 {
+    margin-left: 3.8em;
+}
+
+.row1 {
+    margin-left: 3em;
+}
+
+.row2{
+    margin-left: 2.1em;
+}
+
+.row3 {
+    margin-left: 1.3em;
+}
+
+#findSolutionButton {
+    margin-left: .9em;
+}
