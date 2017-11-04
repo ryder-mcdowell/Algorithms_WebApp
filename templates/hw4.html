@@ -5,8 +5,7 @@
     <h1>Peg Solitaire Solver</h1>
 
     <form action="/hw4" method="POST">
-        <h2 style="display:inline;margin-right:19em">Input:</h2>
-        <br>
+        <h2>Input:</h2>
 
         <input type="checkbox" name="check0" class="row0"><br>
         <input type="checkbox" name="check1" class="row1">
@@ -30,21 +29,27 @@
         <br><br>
     </form>
 
-    <div id="output">
-        <h2>Path:</h2>
-        <p>
-            {% autoescape false %}
-            {{ x }}
-            {% endautoescape %}
-        </p>
-        <br>
-        <h2>Moves:</h2>
-        <p>
-            {% autoescape false %}
-            {{ x }}
-            {% endautoescape %}
-        </p>
-        <br><br>
+    <div id="outputPath">
+        <div id="pathText">
+            <h2>Path:</h2>
+            <form>
+                {% autoescape false %}
+                {{ path }}
+                {% endautoescape %}
+            </form>
+            <br><br>
+        </div>
+    </div>
+    <div id="outputMoves">
+        <div id="movesText">
+            <h2>Moves:</h2>
+            <form>
+                {% autoescape false %}
+                {{ moves }}
+                {% endautoescape %}
+            </form>
+            <br><br>
+        </div>
     </div>
 
 

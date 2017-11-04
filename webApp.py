@@ -157,8 +157,8 @@ def pegSolitaireSolver():
                 j = str(i)
                 input.append(request.form.get('check' + j))
             input, pegCount = processInput(input)
-            findSolution(input, pegCount)
-            return render_template('hw4.html')
+            path, moves = findSolution(input, pegCount)
+            return render_template('hw4.html', path=path, moves=moves)
 
 if __name__ == '__main__':
     app.run(debug=True)
