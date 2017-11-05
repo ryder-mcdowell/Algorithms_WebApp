@@ -1,4 +1,5 @@
 import copy
+import time
 
 
 class Board:
@@ -130,11 +131,16 @@ def hopSouthWest(board, hopperIndex, pathPiece):
     pathPiece.append(convertIndex(landedIndex))
 
 
-#Builds Tree of Boards
-def buildTree(board, path, moves):
+#solves the game board and stores the path and moves by using findPath()
+def solveBoard(board, path, moves):
     global run
+    global startTime
     move = False
     p = 0
+    currentTime = time.time()
+    #force time out after 15 seconds of not finding a solution (not needed but saves time not waiting for no solution)
+    if currentTime - startTime >= 15:
+        run = False
     if run == True:
         #base case
         if board.pegCount == 1:
@@ -142,8 +148,6 @@ def buildTree(board, path, moves):
             run = False
             findPath(board, path, moves)
         else:
-            #bucket for all of the hop variations that are possible
-            hoppers = []
             for i in range(len(board.board)):
                 for j in range(len(board.board[i])):
                     p = p + 1
@@ -159,69 +163,65 @@ def buildTree(board, path, moves):
                         newBoard1.pegCount = newBoard1.pegCount - 1
                         #stores where the jump came from and where landed in 1-15 format
                         newBoard1.path = pathPiece
-                        #appends the copy to a list of all possible hops for the current board
-                        hoppers.append(newBoard1)
-                        #marks that a move has been made
-                        move = True
+                        #stores current board as newBoard's parent (for path finding)
+                        newBoard1.parent = board
+                        #builds tree from newBoard
+                        solveBoard(newBoard1, path, moves)
                     if validateEastHop(board.board, hopperIndex) == True:
                         pathPiece = [p]
                         newBoard2 = copy.deepcopy(board)
                         hopEast(newBoard2.board, hopperIndex, pathPiece)
                         newBoard2.pegCount = newBoard2.pegCount - 1
                         newBoard2.path = pathPiece
-                        hoppers.append(newBoard2)
-                        move = True
+                        newBoard2.parent = board
+                        solveBoard(newBoard2, path, moves)
                     if validateSouthEastHop(board.board, hopperIndex) == True:
                         pathPiece = [p]
                         newBoard3 = copy.deepcopy(board)
                         hopSouthEast(newBoard3.board, hopperIndex, pathPiece)
                         newBoard3.pegCount = newBoard3.pegCount - 1
                         newBoard3.path = pathPiece
-                        hoppers.append(newBoard3)
-                        move = True
+                        newBoard3.parent = board
+                        solveBoard(newBoard3, path, moves)
                     if validateNorthWestHop(board.board, hopperIndex) == True:
                         pathPiece = [p]
                         newBoard4 = copy.deepcopy(board)
                         hopNorthWest(newBoard4.board, hopperIndex, pathPiece)
                         newBoard4.pegCount = newBoard4.pegCount - 1
                         newBoard4.path = pathPiece
-                        hoppers.append(newBoard4)
-                        move = True
+                        newBoard4.parent = board
+                        solveBoard(newBoard4, path, moves)
                     if validateWestHop(board.board, hopperIndex) == True:
                         pathPiece = [p]
                         newBoard5 = copy.deepcopy(board)
                         hopWest(newBoard5.board, hopperIndex, pathPiece)
                         newBoard5.pegCount = newBoard5.pegCount - 1
                         newBoard5.path = pathPiece
-                        hoppers.append(newBoard5)
-                        move = True
+                        newBoard5.parent = board
+                        solveBoard(newBoard5, path, moves)
                     if validateSouthWestHop(board.board, hopperIndex) == True:
                         pathPiece = [p]
                         newBoard6 = copy.deepcopy(board)
                         hopSouthWest(newBoard6.board, hopperIndex, pathPiece)
                         newBoard6.pegCount = newBoard6.pegCount - 1
                         newBoard6.path = pathPiece
-                        hoppers.append(newBoard6)
-                        move = True
+                        newBoard6.parent = board
+                        solveBoard(newBoard6, path, moves)
 
-        #if a move was made, add all the copies as children of their parent's board and call buildTree on them
-        if move == True:
-            for i in range(len(hoppers)):
-                board.children.append(hoppers[i])
-                hoppers[i].parent = board
-                buildTree(hoppers[i], path, moves)
 
 
 #creates root board and builds tree from it
 def findSolution(input, pegCount):
     global run
+    global startTime
     run = True
+    startTime = time.time()
     input = input
     pegCount = pegCount
     path = []
     moves = []
     board = Board(input, pegCount)
-    buildTree(board, path, moves)
+    solveBoard(board, path, moves)
     path, moves = formatPath(path, moves)
     return path, moves
 
