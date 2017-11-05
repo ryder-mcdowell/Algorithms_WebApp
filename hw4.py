@@ -138,7 +138,7 @@ def solveBoard(board, path, moves):
     move = False
     p = 0
     currentTime = time.time()
-    #force time out after 20 seconds of not finding a solution (not needed but saves time not waiting for no solution)
+    #force time out after 20 seconds of not finding a solution (not needed but saves time by not waiting for no solution)
     if currentTime - startTime >= 20:
         run = False
     if run == True:
