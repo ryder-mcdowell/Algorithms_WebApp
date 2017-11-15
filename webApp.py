@@ -3,6 +3,7 @@ from hw1 import *
 from hw2 import *
 from hw3 import *
 from hw4 import *
+from hw5 import *
 import random
 
 app = Flask(__name__)
@@ -159,6 +160,27 @@ def pegSolitaireSolver():
             input, pegCount = processInput(input)
             findSolution(input, pegCount)
             return render_template('hw4.html')
+
+
+@app.route('/hw5', methods=['GET', 'POST'])
+def shortestPath():
+    if request.method == 'GET':
+        return render_template('hw5.html')
+
+    elif request.method == 'POST':
+        if request.form['button'] == 'Generate':
+            count = request.form['count']
+            input = generateInput(count)
+            return render_template('hw5.html', input=input)
+
+        if request.form['button'] == 'ShortestPath':
+            input = request.form['input']
+            start = request.form['start']
+            destination = request.form['destination']
+            path = findShortestPath(input, start, destination)
+            path, distance = formatOutput(path, destination)
+            return render_template('hw5.html', input=input, path= path, distance=distance)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

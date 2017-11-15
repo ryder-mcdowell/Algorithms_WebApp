@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Shortest Path Algorithm</h1>
+
+    <form action="/hw5" method="POST">
+        <h2>Input:</h2>
+        <textarea type="text" name="input" rows="20" cols="80">{% autoescape false %}{{ input }}{% endautoescape %}</textarea>
+        <br><br>
+        <input type="range" min="2" max="10" value="5" class="slider" name="count"><input type="submit" name="button" value="Generate"/>
+        <br><br>
+        From: <input type="text" name="start"/>   To: <input type="text" name="destination"/>  <input type="submit" name="button" value="ShortestPath"/>
+    </form>
+
+    <br><br>
+    <h3>Shortest Path:</h3>
+    <p>{% autoescape false %}{{ path }}{% endautoescape %}</p>
+    <br><br>
+    <h3>Distance:</h3>
+    <p>{% autoescape false %}{{ distance }}{% endautoescape %}</p>
+
+
+{% endblock %}
