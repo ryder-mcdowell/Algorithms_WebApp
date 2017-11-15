@@ -23,8 +23,6 @@ class priorityQueue:
             if shortestPath[0] < lowest or lowest == None:
                 lowest = shortestPath[0]
                 lowestNode = node
-                print '#', lowest
-                print '#', lowestNode.id
         return lowestNode.id
 
     def printQueue(self):
@@ -63,12 +61,14 @@ def findShortestPath(input, start, destination):
                 weight = int(path[1])
                 node = graph[child]
                 #if current weight is less than stored weight, change it
-                if weight < queue.queue[node][0]:
+                print "$", weight, queue.queue[node][0]
+                if weight + previousWeight < queue.queue[node][0]:
                     queue.queue[node] = (weight + previousWeight, current)
 
         #deletes current node from queue after it has been checked and saves it
         deleted[current] = (queue.queue[graph[current]][0], queue.queue[graph[current]][1])
         queue.delete(graph[current])
+        print "deleted=", deleted
 
         #sets current node as the top of the priority queue
         current = queue.returnTop()
