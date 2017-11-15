@@ -1,4 +1,5 @@
 import copy
+import time
 
 
 class Board:
@@ -9,7 +10,6 @@ class Board:
         self.children = []
         self.parent = None
         self.path = []
-
 
 
 #East Hop Functions
@@ -26,12 +26,12 @@ def validateNorthEastHop(board, hopperIndex):
             return False
     else:
         return False
-def hopNorthEast(board, hopperIndex, path):
+def hopNorthEast(board, hopperIndex, pathPiece):
     board[hopperIndex[0]][hopperIndex[1]] = 0
     board[hopperIndex[0] - 1][hopperIndex[1]] = 0
     board[hopperIndex[0] - 2][hopperIndex[1]] = 1
     landedIndex = [hopperIndex[0] - 2, hopperIndex[1]]
-    path.append(convertIndex(landedIndex))
+    pathPiece.append(convertIndex(landedIndex))
 def validateEastHop(board, hopperIndex):
     #checks if valid hopperIndex (hopper to hop exists at said lcoation)
     if board[hopperIndex[0]][hopperIndex[1]] != 1:
@@ -45,12 +45,12 @@ def validateEastHop(board, hopperIndex):
             return False
     else:
         return False
-def hopEast(board, hopperIndex, path):
+def hopEast(board, hopperIndex, pathPiece):
     board[hopperIndex[0]][hopperIndex[1]] = 0
     board[hopperIndex[0]][hopperIndex[1] + 1] = 0
     board[hopperIndex[0]][hopperIndex[1] + 2] = 1
     landedIndex = [hopperIndex[0], hopperIndex[1] + 2]
-    path.append(convertIndex(landedIndex))
+    pathPiece.append(convertIndex(landedIndex))
 def validateSouthEastHop(board, hopperIndex):
     #checks if valid hopperIndex (hopper to hop exists at said lcoation)
     if board[hopperIndex[0]][hopperIndex[1]] != 1:
@@ -64,12 +64,12 @@ def validateSouthEastHop(board, hopperIndex):
             return False
     else:
         return False
-def hopSouthEast(board, hopperIndex, path):
+def hopSouthEast(board, hopperIndex, pathPiece):
     board[hopperIndex[0]][hopperIndex[1]] = 0
     board[hopperIndex[0] + 1][hopperIndex[1] + 1] = 0
     board[hopperIndex[0] + 2][hopperIndex[1] + 2] = 1
     landedIndex = [hopperIndex[0] + 2, hopperIndex[1] + 2]
-    path.append(convertIndex(landedIndex))
+    pathPiece.append(convertIndex(landedIndex))
 
 #West Hop Functions
 def validateNorthWestHop(board, hopperIndex):
@@ -85,12 +85,12 @@ def validateNorthWestHop(board, hopperIndex):
             return False
     else:
         return False
-def hopNorthWest(board, hopperIndex, path):
+def hopNorthWest(board, hopperIndex, pathPiece):
     board[hopperIndex[0]][hopperIndex[1]] = 0
     board[hopperIndex[0] - 1][hopperIndex[1] - 1] = 0
     board[hopperIndex[0] - 2][hopperIndex[1] - 2] = 1
     landedIndex = [hopperIndex[0] - 2, hopperIndex[1] - 2]
-    path.append(convertIndex(landedIndex))
+    pathPiece.append(convertIndex(landedIndex))
 def validateWestHop(board, hopperIndex):
     #checks if valid hopperIndex (hopper to hop exists at said lcoation)
     if board[hopperIndex[0]][hopperIndex[1]] != 1:
@@ -104,12 +104,12 @@ def validateWestHop(board, hopperIndex):
             return False
     else:
         return False
-def hopWest(board, hopperIndex, path):
+def hopWest(board, hopperIndex, pathPiece):
     board[hopperIndex[0]][hopperIndex[1]] = 0
     board[hopperIndex[0]][hopperIndex[1] - 1] = 0
     board[hopperIndex[0]][hopperIndex[1] - 2] = 1
     landedIndex = [hopperIndex[0], hopperIndex[1] - 2]
-    path.append(convertIndex(landedIndex))
+    pathPiece.append(convertIndex(landedIndex))
 def validateSouthWestHop(board, hopperIndex):
     #checks if valid hopperIndex (hopper to hop exists at said lcoation)
     if board[hopperIndex[0]][hopperIndex[1]] != 1:
@@ -123,135 +123,118 @@ def validateSouthWestHop(board, hopperIndex):
             return False
     else:
         return False
-def hopSouthWest(board, hopperIndex, path):
+def hopSouthWest(board, hopperIndex, pathPiece):
     board[hopperIndex[0]][hopperIndex[1]] = 0
     board[hopperIndex[0] + 1][hopperIndex[1]] = 0
     board[hopperIndex[0] + 2][hopperIndex[1]] = 1
     landedIndex = [hopperIndex[0] + 2, hopperIndex[1]]
-    print landedIndex
-    path.append(convertIndex(landedIndex))
+    pathPiece.append(convertIndex(landedIndex))
 
 
-run = True
-#Builds Tree of Boards
-def buildTree(board):
+#solves the game board and stores the path and moves by using findPath()
+def solveBoard(board, path, moves):
     global run
-    print 'run=', run
-    print 'pegCount=', board.pegCount
+    global startTime
     move = False
     p = 0
+    currentTime = time.time()
+    #force time out after 20 seconds of not finding a solution (not needed but saves time by not waiting for no solution)
+    if currentTime - startTime >= 20:
+        run = False
     if run == True:
         #base case
         if board.pegCount == 1:
             print "Solution Found"
             run = False
-            moves = []
-            path = []
             findPath(board, path, moves)
-            return path, moves
         else:
-            #bucket for all of the hop variations that are possible
-            hoppers = []
             for i in range(len(board.board)):
                 for j in range(len(board.board[i])):
                     p = p + 1
                     hopperIndex = [i, j]
                     #checks which hops are possible for current board, makes the hop on a copy and saves the copy
                     if validateNorthEastHop(board.board, hopperIndex) == True:
-                        path = [p]
-                        print '*', path
+                        pathPiece = [p]
                         #creates copy from root board
                         newBoard1 = copy.deepcopy(board)
                         #makes the hop on the copied board
-                        hopNorthEast(newBoard1.board, hopperIndex, path)
+                        hopNorthEast(newBoard1.board, hopperIndex, pathPiece)
                         #reduces the pegCount on the copy by 1
                         newBoard1.pegCount = newBoard1.pegCount - 1
-                        print '**', path
-                        newBoard1.path = path
-                        #appends the copy to a list of all possible hops for the current board
-                        hoppers.append(newBoard1)
-                        #marks that a move has been made
-                        move = True
+                        #stores where the jump came from and where landed in 1-15 format
+                        newBoard1.path = pathPiece
+                        #stores current board as newBoard's parent (for path finding)
+                        newBoard1.parent = board
+                        #builds tree from newBoard
+                        solveBoard(newBoard1, path, moves)
                     if validateEastHop(board.board, hopperIndex) == True:
-                        path = [p]
-                        print '*', path
+                        pathPiece = [p]
                         newBoard2 = copy.deepcopy(board)
-                        hopEast(newBoard2.board, hopperIndex, path)
+                        hopEast(newBoard2.board, hopperIndex, pathPiece)
                         newBoard2.pegCount = newBoard2.pegCount - 1
-                        print '**', path
-                        newBoard2.path = path
-                        hoppers.append(newBoard2)
-                        move = True
+                        newBoard2.path = pathPiece
+                        newBoard2.parent = board
+                        solveBoard(newBoard2, path, moves)
                     if validateSouthEastHop(board.board, hopperIndex) == True:
-                        path = [p]
-                        print '*', path
+                        pathPiece = [p]
                         newBoard3 = copy.deepcopy(board)
-                        hopSouthEast(newBoard3.board, hopperIndex, path)
+                        hopSouthEast(newBoard3.board, hopperIndex, pathPiece)
                         newBoard3.pegCount = newBoard3.pegCount - 1
-                        print '**', path
-                        newBoard3.path = path
-                        hoppers.append(newBoard3)
-                        move = True
+                        newBoard3.path = pathPiece
+                        newBoard3.parent = board
+                        solveBoard(newBoard3, path, moves)
                     if validateNorthWestHop(board.board, hopperIndex) == True:
-                        path = [p]
-                        print '*', path
+                        pathPiece = [p]
                         newBoard4 = copy.deepcopy(board)
-                        hopNorthWest(newBoard4.board, hopperIndex, path)
+                        hopNorthWest(newBoard4.board, hopperIndex, pathPiece)
                         newBoard4.pegCount = newBoard4.pegCount - 1
-                        print '**', path
-                        newBoard4.path = path
-                        hoppers.append(newBoard4)
-                        move = True
+                        newBoard4.path = pathPiece
+                        newBoard4.parent = board
+                        solveBoard(newBoard4, path, moves)
                     if validateWestHop(board.board, hopperIndex) == True:
-                        path = [p]
-                        print '*', path
+                        pathPiece = [p]
                         newBoard5 = copy.deepcopy(board)
-                        hopWest(newBoard5.board, hopperIndex, path)
+                        hopWest(newBoard5.board, hopperIndex, pathPiece)
                         newBoard5.pegCount = newBoard5.pegCount - 1
-                        print '**', path
-                        newBoard5.path = path
-                        hoppers.append(newBoard5)
-                        move = True
+                        newBoard5.path = pathPiece
+                        newBoard5.parent = board
+                        solveBoard(newBoard5, path, moves)
                     if validateSouthWestHop(board.board, hopperIndex) == True:
-                        path = [p]
-                        print '*', path
+                        pathPiece = [p]
                         newBoard6 = copy.deepcopy(board)
-                        hopSouthWest(newBoard6.board, hopperIndex, path)
+                        hopSouthWest(newBoard6.board, hopperIndex, pathPiece)
                         newBoard6.pegCount = newBoard6.pegCount - 1
-                        print '**', path
-                        newBoard6.path = path
-                        hoppers.append(newBoard6)
-                        move = True
+                        newBoard6.path = pathPiece
+                        newBoard6.parent = board
+                        solveBoard(newBoard6, path, moves)
 
-        #if a move was made, add all the copies as children of their parent's board and call buildTree on them
-        if move == True:
-            for i in range(len(hoppers)):
-                board.children.append(hoppers[i])
-                hoppers[i].parent = board
-                buildTree(hoppers[i])
 
 
 #creates root board and builds tree from it
 def findSolution(input, pegCount):
+    global run
+    global startTime
+    run = True
+    startTime = time.time()
     input = input
     pegCount = pegCount
+    path = []
+    moves = []
     board = Board(input, pegCount)
-    buildTree(board)
-    # need to get path here !
-    # formatPath(path, moves)
-    # return path, moves
+    solveBoard(board, path, moves)
+    path, moves = formatPath(path, moves)
+    return path, moves
+
 
 #returns the path of steps to solve board
 def findPath(board, path, moves):
     if board.parent != None:
-        print '$$$$$$', board.board
         moves.append(board.board)
-        print board.path
-        path.append(board.parent.path)
+        path.append(board.path)
         findPath(board.parent, path, moves)
     else:
-        print '$$$$$$', board.board
         moves.append(board.board)
+
 
 #converts the input from webPage to a matrix of 1's and 0's, and counts pegs
 def processInput(input):
@@ -292,14 +275,51 @@ def processInput(input):
                 matrix[4].append(1)
     return matrix, pegCount
 
+
 #formats the path for webApp printing
 def formatPath(path, moves):
     outputPath = ''
     outputMoves = ''
-    for i in path:
-        outputPath = outputPath + str(i) + '\n'
-    for i in moves:
-        outputMoves = outputMoves + str(i) + '\n'
+    pathForMoves = []
+    for i in reversed(path):
+        outputPath = outputPath + str(i[0]) + ' -> ' + str(i[1]) + '<br>'
+        pathForMoves.append(i)
+    cntr1 = 0
+    for i in reversed(moves):
+        cntr2 = 0
+        cntr3 = 0
+        #if the first board:
+        if cntr1 == 0:
+            outputMoves = outputMoves + 'Start:<br>'
+        #if not the first board:
+        else:
+            outputMoves = outputMoves + '--------------------<br>'# + '\n'
+            outputMoves = outputMoves + str(pathForMoves[cntr1 - 1][0]) + ' -> ' + str(pathForMoves[cntr1 - 1][1]) + '<br>'
+        for j in i:
+            for k in j:
+                #if first checkbox in row:
+                if cntr3 == 0 or cntr3 == 1 or cntr3 == 3 or cntr3 == 6 or cntr3 == 10:
+                    if k == 0:
+                        outputMoves = outputMoves + '<input type="checkbox" class="row' + str(cntr2) + '">'
+                    if k == 1:
+                        outputMoves = outputMoves + '<input type="checkbox" class="row' + str(cntr2) + '" checked>'
+                #if not first checkbox:
+                else:
+                    if k == 0:
+                        outputMoves = outputMoves + '<input type="checkbox">'
+                    if k == 1:
+                        outputMoves = outputMoves + '<input type="checkbox" checked>'
+                # if last checkbox in row:
+                if cntr3 == 0 or cntr3 == 2 or cntr3 == 5 or cntr3 == 9 or cntr3 == 14:
+                    outputMoves = outputMoves + '<br>'
+                cntr3 = cntr3 + 1
+            cntr2 = cntr2 + 1
+        cntr1 = cntr1 + 1
+
+    path = outputPath
+    moves = outputMoves
+    return path, moves
+
 
 #converts an index into a single number
 def convertIndex(index):

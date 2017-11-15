@@ -5,24 +5,23 @@
     <h1>Peg Solitaire Solver</h1>
 
     <form action="/hw4" method="POST">
-        <h2 style="display:inline;margin-right:19em">Input:</h2>
-        <br>
+        <h2>Input:</h2>
 
-        <input type="checkbox" name="check0" class="row0"><br>
-        <input type="checkbox" name="check1" class="row1">
-        <input type="checkbox" name="check2"><br>
-        <input type="checkbox" name="check3" class="row2">
-        <input type="checkbox" name="check4">
-        <input type="checkbox" name="check5"><br>
-        <input type="checkbox" name="check6" class="row3">
-        <input type="checkbox" name="check7">
-        <input type="checkbox" name="check8">
-        <input type="checkbox" name="check9"><br>
-        <input type="checkbox" name="check10" class="row4">
-        <input type="checkbox" name="check11">
-        <input type="checkbox" name="check12">
-        <input type="checkbox" name="check13">
-        <input type="checkbox" name="check14"><br>
+        <input type="checkbox" name="check0" class="row0" checked><br>
+        <input type="checkbox" name="check1" class="row1" checked>
+        <input type="checkbox" name="check2" checked><br>
+        <input type="checkbox" name="check3" class="row2" checked>
+        <input type="checkbox" name="check4" checked>
+        <input type="checkbox" name="check5" checked><br>
+        <input type="checkbox" name="check6" class="row3" checked>
+        <input type="checkbox" name="check7" checked>
+        <input type="checkbox" name="check8" checked>
+        <input type="checkbox" name="check9" checked><br>
+        <input type="checkbox" name="check10" class="row4" checked>
+        <input type="checkbox" name="check11" checked>
+        <input type="checkbox" name="check12" checked>
+        <input type="checkbox" name="check13" checked>
+        <input type="checkbox" name="check14" checked><br>
 
         <br>
         <input type="submit" name="button" value="Find Solution" id="findSolutionButton"/>
@@ -30,21 +29,27 @@
         <br><br>
     </form>
 
-    <div id="output">
-        <h2>Path:</h2>
-        <p>
-            {% autoescape false %}
-            {{ x }}
-            {% endautoescape %}
-        </p>
-        <br>
-        <h2>Moves:</h2>
-        <p>
-            {% autoescape false %}
-            {{ x }}
-            {% endautoescape %}
-        </p>
-        <br><br>
+    <div id="outputPath">
+        <div id="pathText">
+            <h2>Path:</h2>
+            <form>
+                {% autoescape false %}
+                {{ path }}
+                {% endautoescape %}
+            </form>
+            <br><br>
+        </div>
+    </div>
+    <div id="outputMoves">
+        <div id="movesText">
+            <h2>Moves:</h2>
+            <form>
+                {% autoescape false %}
+                {{ moves }}
+                {% endautoescape %}
+            </form>
+            <br><br>
+        </div>
     </div>
 
 
