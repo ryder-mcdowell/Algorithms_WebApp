@@ -62,7 +62,7 @@ def findShortestPath(input, start, destination):
                 node = graph[child]
                 #if current weight is less than stored weight, change it
                 print "$", weight, queue.queue[node][0]
-                if weight + previousWeight < queue.queue[node][0]:
+                if weight + previousWeight < queue.queue[node][0]:                  ######### Here's where error was. Before it was just weight and not weight + previousWeight #########
                     queue.queue[node] = (weight + previousWeight, current)
 
         #deletes current node from queue after it has been checked and saves it
