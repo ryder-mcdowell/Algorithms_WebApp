@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Traveling Salesman</h1>
+
+    <form action="/final_project" method="POST">
+        <h2>Input:</h2>
+        <textarea type="text" name="input" rows="20" cols="80">{% autoescape false %}{{ input }}{% endautoescape %}</textarea>
+        <br><br>
+        <h3>Graph Generation:</h3>
+        3<input type="range" min="3" max="26" value="20" class="slider" name="count">26<br>
+        <input type="submit" name="button" value="Generate"/>
+        <br><br><br>
+        <h3>WolfPack Algorithm:</h3>
+        Start: &nbsp;&nbsp; <input type="text" name="start"/><br>
+        Wolf Pack Size: &nbsp;&nbsp; 3<input type="range" min="3" max="10" value="5" class="slider" name="packSize">10
+        <br><br><br>
+        <h3>Genetic Algorithm:</h3>
+        Activate? <input type="checkbox" name="geneticChoice" checked><br><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Generations: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1<input type="range" min="1" max="10000" value="100" class="slider" name="generations">10000 &nbsp;&nbsp; (default = 100 (recommended))<br>
+        Recombination Rate: &nbsp;&nbsp; 0.1<input type="range" min="0.1" max="1.0" value="0.1" class="slider" name="recombinationRate">1 &nbsp;&nbsp; (default = .1 (recommended))<br><br><br>
+
+        <input type="submit" name="button" value="Compute Path"/>
+    </form>
+
+    <br><br>
+    <h3>Path:</h3>
+    <p>{% autoescape false %}{% endautoescape %}</p>
+    <h3>Distance:</h3>
+    <p>{% autoescape false %}{% endautoescape %}</p>
+
+
+{% endblock %}

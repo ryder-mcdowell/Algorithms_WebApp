@@ -181,6 +181,20 @@ def shortestPath():
             path, distance = formatOutput(path, destination)
             return render_template('hw5.html', input=input, path= path, distance=distance)
 
+@app.route('/final_project', methods=['GET', 'POST'])
+def travelingSalesman():
+    if request.method == 'GET':
+        return render_template('final_project.html')
+
+    elif request.method == 'POST':
+        if request.form['button'] == 'Generate':
+            count = request.form['count']
+            input = generateInput(count)
+            return render_template('hw5.html', input=input)
+
+        if request.form['button'] == 'Compute Path':
+            pass
+
 
 if __name__ == '__main__':
     app.run(debug=True)
