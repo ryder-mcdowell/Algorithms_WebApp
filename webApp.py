@@ -4,6 +4,7 @@ from hw2 import *
 from hw3 import *
 from hw4 import *
 from hw5 import *
+from final_project import *
 import random
 
 app = Flask(__name__)
@@ -190,10 +191,21 @@ def travelingSalesman():
         if request.form['button'] == 'Generate':
             count = request.form['count']
             input = generateInput(count)
-            return render_template('hw5.html', input=input)
+            return render_template('final_project.html', input=input)
 
         if request.form['button'] == 'Compute Path':
-            pass
+            input = request.form['input']
+            start = request.form['start']
+            packSize = request.form['packSize']
+            graph = formatInput(input)
+            population = buildPopulation(input, graph, start, packSize)
+            if request.form.get('geneticChoice'):
+                generations = request.form['generations']
+                recombinationRate = request.form['recombinationRate']
+                mutationRate = request.form['mutationRate']
+                population = geneticAlgorithm(population, packSize, graph, generations, recombinationRate, mutationRate)
+            weight, path = returnPath(population)
+            return render_template('final_project.html', input=input, weight=weight, path=path)
 
 
 if __name__ == '__main__':
