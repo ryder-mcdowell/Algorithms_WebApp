@@ -61,7 +61,6 @@ def buildPopulation(input, graph, start, packSize):
         for wolf in wolfPack.members:
             #if wolf is far away and their path looks good, swap who's alpha
             if wolf.hopsAway > 3 and wolf.pathWeight / previousAlphaWeight < newAlphaRatio:
-                #print 'Wolf:', wolf.id, "| Is the New Alpha"
                 wolfPack.alpha = wolf
                 newAlphaRatio = wolf.pathWeight / previousAlphaWeight
                 tmp = copy.deepcopy(wolfPack.members[0])
@@ -76,7 +75,6 @@ def buildPopulation(input, graph, start, packSize):
         for wolf in wolfPack.members:
             #if wolf gets too far away from pack and their path isn't looking good, return to alpha
             if wolf.hopsAway > 3 and wolf.pathWeight / previousAlphaWeight > 1.3 and len(wolf.path) != len(graph):
-                #print 'Wolf:', wolf.id, "| Returned to Alpha"
                 #change relevant info to alpha's info
                 wolf.hopsAway = 0
                 wolf.current = copy.copy(wolfPack.alpha.current)
@@ -120,7 +118,6 @@ def buildPopulation(input, graph, start, packSize):
                                 wolf.pathWeight = wolf.pathWeight + path[1]
                                 wolf.current = start
                                 population.append(wolf)
-                                #print "SOLUTION FOUND | FINAL WEIGHT = ", wolf.pathWeight
 
                 #update wolf's status/info
                 if counter == 0:
@@ -137,7 +134,6 @@ def buildPopulation(input, graph, start, packSize):
 
         counter = counter + 1
 
-    #print '\n', '-----------------------------------------'
     return population
 
 #genetic algorithm!
@@ -148,20 +144,16 @@ def geneticAlgorithm(population, packSize, graph, generations, recombinationRate
     mutationRate = float(mutationRate)
     IDcounter = packSize
     for i in range(generations):
-        #print "Generation", i + 1
         totalFitness = evaluatePopulation(population)
         if i == 0:
             startFitness = totalFitness
         parents = selectParents(population, totalFitness)
         IDcounter = mate(parents, graph, population, recombinationRate, mutationRate, IDcounter)
         survivalOfTheFittest(population, packSize)
-        #print "Fitness = ", totalFitness
-        #print '------------------'
 
     totalFitness = 0
     for wolf in population:
         totalFitness = totalFitness + wolf.fitnessScore
-    #print "Start Fitness:", startFitness, ' | ', 'End Fitness:', totalFitness
     return population
 
 #evaluates fitness of wolf population
@@ -257,7 +249,6 @@ def survivalOfTheFittest(population, packSize):
                 if population[i].fitnessScore < leastFit.fitnessScore:
                     leastFit = population[i]
                     eliminateIndex = i
-            #print 'wolf', population[eliminateIndex].id, 'did not survive'
             del population[eliminateIndex]
 
 #generates input based on count input
