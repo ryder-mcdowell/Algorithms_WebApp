@@ -204,8 +204,10 @@ def mate(parents, graph, population, recombinationRate, mutationRate, IDcounter)
     #swaps genes from parent1 genes into parent2 genes which = child genes
     pup.path = copy.copy(parent2.path)
     recombinations = round(len(pup.path) // 2 * recombinationRate)
+    if recombinations == 0:
+        recombinations = 1
     for i in range(int(recombinations)):
-        switchpoint = random.randint(0, len(pup.path) - 1)
+        switchpoint = random.randint(1, len(pup.path) - 2)
         gene = parent1.path[switchpoint]
         for j in range(len(pup.path)):
             if pup.path[j] == gene:
@@ -224,14 +226,11 @@ def mate(parents, graph, population, recombinationRate, mutationRate, IDcounter)
     mutationWindow = round(mutationRate * 100)
     mutationPick = random.randint(0, 100)
     if mutationPick < mutationWindow:
-        switchpoint1 = random.randint(0, len(pup.path) - 1)
-        switchpoint2 = random.randint(0, len(pup.path) - 1)
-        #print "Mutation! Swapping", pup.path[switchpoint1], "with", pup.path[switchpoint2]
-        #print "Before:\n", pup.path
+        switchpoint1 = random.randint(1, len(pup.path) - 2)
+        switchpoint2 = random.randint(1, len(pup.path) - 2)
         tmp = pup.path[switchpoint1]
         pup.path[switchpoint1] = pup.path[switchpoint2]
         pup.path[switchpoint2] = tmp
-        #print "After:\n", pup.path, "\n"
 
     #add pup to the population
     population.append(pup)
