@@ -205,7 +205,7 @@ def travelingSalesman():
                 mutationRate = request.form['mutationRate']
                 population = geneticAlgorithm(population, packSize, graph, generations, recombinationRate, mutationRate)
             weight, path = returnPath(population)
-            return render_template('final_project.html', input=input, weight=weight, path=path, start=start)
+            return render_template('final_project.html', input=input, weight=weight, path=path)
 
 
 if __name__ == '__main__':
