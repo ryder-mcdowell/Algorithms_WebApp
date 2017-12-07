@@ -262,11 +262,11 @@ def generateInput(count):
     input = input + '\n'
     counter = 0
     for letter in input:
-        if letter != '-' and letter != ',' and letter != '\n':
+        if letter != '0' and letter != '-' and letter != ',' and letter != '\n':
             input = input + letter + ','
             for i in range(count):
                 if i >= counter:
-                    input = input + '-'
+                    input = input + '0'
                     if i != (count - 1):
                         input = input + ','
                 else:
@@ -286,7 +286,7 @@ def generateInput(count):
     input = ''
     for i in range(len(inputMatrix)):
         for j in range(len(inputMatrix[i]) - 1):
-            if inputMatrix[i][j] != '-' and inputMatrix[i][j] != ',' and j != 0 and i != 0:
+            if inputMatrix[i][j] != '0' and inputMatrix[i][j] != '-' and inputMatrix[i][j] != ',' and j != 0 and i != 0:
                 tmp = inputMatrix[i][j]
                 inputMatrix[j][i] = tmp
     for i in range(len(inputMatrix)):
@@ -322,7 +322,7 @@ def formatInput(input):
         cntr = 0
         for j in i:
             #skips over dashes and the letter
-            if j != '-' and cntr != 0:
+            if j != '0' and j != '-' and cntr != 0:
                 node.paths.append((inputKey[cntr],int(j)))
             cntr = cntr + 1
     return graph

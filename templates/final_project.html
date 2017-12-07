@@ -22,10 +22,11 @@
         Recombination Rate: &nbsp;&nbsp; 0.1<input type="range" min="0.1" max="1.0" value="0.1" step=".1"class="slider" name="recombinationRate">1.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (default = .1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         Mutation Rate: &nbsp;&nbsp; 0.0<input type="range" min="0.0" max="1.0" value="0.2" step=".1" class="slider" name="mutationRate">1.0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (default = .2)<br><br><br><br>
 
-        <input type="submit" name="button" value="Compute Path"/>
+        <input type="submit" name="button" value="Compute Path" id="computeButton"/>
     </form>
 
     <br><br>
+    <h2>Heuristic Solution:</h2>
     <h3>Path:</h3>
     <p>{% autoescape false %}{{ path }}{% endautoescape %}</p>
     <h3>Distance:</h3>

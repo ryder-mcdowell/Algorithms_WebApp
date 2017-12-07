@@ -38,3 +38,9 @@ li {
     width: 50%;
     float: left;
 }
+
+#idButton {
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+}
